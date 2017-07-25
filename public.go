@@ -63,6 +63,17 @@ type Ticker struct {
 	Last float64 `json:"Last"`
 }
 
+// MarketHistory stores last trades occurring in an existing market
+type MarketHistory struct {
+	Id        int     `json:"Id"`
+	TimeStamp string  `json:"TimeStamp"`
+	Quantity  float64 `json:"Quantity"`
+	Price     float64 `json:"Price"`
+	Total     float64 `json:"Total"`
+	FillType  string  `json:"FillType"`
+	OrderType string  `json:"OrderType"`
+}
+
 // GetMarkets gets open and available markets at bittrex
 func (p *PublicService) GetMarkets() ([]Market, error) {
 	url := "public/getMarkets"
@@ -131,4 +142,20 @@ func (p *PublicService) GetTicker(market string) (Ticker, error) {
 	_, err = p.client.Do(req, ticker)
 
 	return *ticker, err
+}
+
+// @todo GetOrderBook
+
+// GetMarketHistory returns current tick values for a market
+func (p *PublicService) GetMarketHistory(market string) ([]MarketHistory, error) {
+	url := "public/getmarkethistory?market=" + market
+	req, err := p.client.NewRequest("GET", url, "")
+	if err != nil {
+		return nil, err
+	}
+
+	marketHistory := new([]MarketHistory)
+	_, err = p.client.Do(req, marketHistory)
+
+	return *marketHistory, err
 }
