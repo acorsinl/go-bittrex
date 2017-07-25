@@ -8,6 +8,7 @@ package bittrex
 
 import (
 	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/url"
 )
@@ -17,8 +18,7 @@ const (
 	LibraryVersion = "0.1"
 
 	// BaseURL where bittrex API is listening
-	//BaseURL = "https://bittrex.com/api/v1.1/"
-	BaseURL = "http://localhost:6666/"
+	BaseURL = "https://bittrex.com/api/v1.1/"
 
 	// UserAgent to be sent in each request by this package
 	UserAgent = "github.com/acorsinl/go-bittrex v" + LibraryVersion
@@ -45,6 +45,16 @@ type Client struct {
 	Public *PublicService
 	// @todo Market  *MarketService
 	// @todo Account *AccountService
+
+	Response *Response
+}
+
+// Response handles bittrex API response
+type Response struct {
+	Response *http.Response
+	Success  bool
+	Message  string
+	Result   interface{}
 }
 
 // NewRequest creates an API request. A relative URL can be provided in
@@ -76,6 +86,13 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 		return nil, err
 	}
 	defer res.Body.Close()
+
+	r := &Response{Response: res}
+	if v != nil {
+		r.Result = v
+		err = json.NewDecoder(res.Body).Decode(r)
+		c.Response = r
+	}
 
 	return res, err
 }

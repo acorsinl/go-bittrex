@@ -13,7 +13,19 @@ type PublicService struct {
 }
 
 // Market stores the API result about markets
-type Market struct{}
+type Market struct {
+	MarketCurrency     string  `json:"MarketCurrency"`
+	BaseCurrency       string  `json:"BaseCurrency"`
+	MarketCurrencyLong string  `json:"MarketCurrencyLong"`
+	BaseCurrencyLong   string  `json:"BaseCurrencyLong"`
+	MinTradeSize       float64 `json:"MinTradeSize"`
+	MarketName         string  `json:"MarketName"`
+	IsActive           bool    `json:"IsActive"`
+	Created            string  `json:"Created"`
+	Notice             string  `json:"Notice"`
+	IsSponsored        bool    `json:"IsSponsored"`
+	LogoURL            string  `json:"LogoUrl"`
+}
 
 // GetMarkets gets open and available markets at bittrex
 func (p *PublicService) GetMarkets() ([]Market, error) {
