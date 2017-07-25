@@ -44,7 +44,7 @@ type Client struct {
 	// Services used to access different API sections
 	Public *PublicService
 	// @todo Market  *MarketService
-	// @todo Account *AccountService
+	Account *AccountService
 
 	Response *Response
 }

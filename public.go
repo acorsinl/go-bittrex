@@ -56,6 +56,13 @@ type MarketSummary struct {
 	Created        string  `json:"Created"`
 }
 
+// Ticker stores current tick value for a market
+type Ticker struct {
+	Bid  float64 `json:"Bid"`
+	Ask  float64 `json:"Ask"`
+	Last float64 `json:"Last"`
+}
+
 // GetMarkets gets open and available markets at bittrex
 func (p *PublicService) GetMarkets() ([]Market, error) {
 	url := "public/getMarkets"
@@ -96,4 +103,18 @@ func (p *PublicService) GetMarketSummaries() ([]MarketSummary, error) {
 	_, err = p.client.Do(req, marketSummaries)
 
 	return *marketSummaries, err
+}
+
+// GetTicker returns current tick values for a market
+func (p *PublicService) GetTicker(market string) (Ticker, error) {
+	url := "public/getticker?market=" + market
+	req, err := p.client.NewRequest("GET", url, "")
+	if err != nil {
+		return Ticker{}, err
+	}
+
+	ticker := new(Ticker)
+	_, err = p.client.Do(req, ticker)
+
+	return *ticker, err
 }

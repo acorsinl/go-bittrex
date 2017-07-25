@@ -42,4 +42,11 @@ func main() {
 	for _, m := range marketSummaries {
 		fmt.Println(m)
 	}
+
+	ticker, err := client.Public.GetTicker("ETH-LTC")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	fmt.Println(ticker)
 }
