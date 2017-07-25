@@ -21,8 +21,6 @@ func main() {
 		fmt.Println(err.Error())
 	}
 
-	fmt.Println(len(markets))
-
 	for _, m := range markets {
 		fmt.Println(m)
 	}
