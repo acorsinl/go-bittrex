@@ -17,7 +17,8 @@ const (
 	LibraryVersion = "0.1"
 
 	// BaseURL where bittrex API is listening
-	BaseURL = "https://bittrex.com/api/v1.1/"
+	//BaseURL = "https://bittrex.com/api/v1.1/"
+	BaseURL = "http://localhost:6666/"
 
 	// UserAgent to be sent in each request by this package
 	UserAgent = "github.com/acorsinl/go-bittrex v" + LibraryVersion
@@ -54,13 +55,16 @@ func (c *Client) NewRequest(method, URLStr, body string) (*http.Request, error) 
 		return nil, err
 	}
 
+	u := c.BaseURL.ResolveReference(rel)
+
 	// @todo: handle non public urls with apikey and apisecret
-	req, err := http.NewRequest(method, rel.String(), bytes.NewBufferString(body))
+	req, err := http.NewRequest(method, u.String(), bytes.NewBufferString(body))
 	if err != nil {
 		return nil, err
 	}
 
-	req.Header.Add("UserAgent", c.UserAgent)
+	req.Header.Add("User-Agent", c.UserAgent)
+	req.Header.Add("Accept", "application/json")
 
 	return req, nil
 }
