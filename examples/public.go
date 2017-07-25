@@ -24,4 +24,13 @@ func main() {
 	for _, m := range markets {
 		fmt.Println(m)
 	}
+
+	currencies, err := client.Public.GetCurrencies()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for _, m := range currencies {
+		fmt.Println(m)
+	}
 }
