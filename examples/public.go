@@ -49,4 +49,13 @@ func main() {
 	}
 
 	fmt.Println(ticker)
+
+	marketSummary, err := client.Public.GetMarketSummary("ETH-LTC")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for _, m := range marketSummary {
+		fmt.Println(m)
+	}
 }

@@ -105,6 +105,20 @@ func (p *PublicService) GetMarketSummaries() ([]MarketSummary, error) {
 	return *marketSummaries, err
 }
 
+// GetMarketSummary gets last 24h summary of all active exchanges
+func (p *PublicService) GetMarketSummary(market string) ([]MarketSummary, error) {
+	url := "public/getmarketsummary?market=" + market
+	req, err := p.client.NewRequest("GET", url, "")
+	if err != nil {
+		return nil, err
+	}
+
+	marketSummary := new([]MarketSummary)
+	_, err = p.client.Do(req, marketSummary)
+
+	return *marketSummary, err
+}
+
 // GetTicker returns current tick values for a market
 func (p *PublicService) GetTicker(market string) (Ticker, error) {
 	url := "public/getticker?market=" + market
