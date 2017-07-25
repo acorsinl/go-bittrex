@@ -75,3 +75,22 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 
 	return res, err
 }
+
+// NewClient returns a bittrex API client. If a nil http client is provided
+// http.DefaultClient will be used
+func NewClient(httpClient *http.Client) *Client {
+	if httpClient == nil {
+		httpClient = http.DefaultClient
+	}
+
+	baseURL, _ := url.Parse(BaseURL)
+
+	c := &Client{
+		client:    httpClient,
+		BaseURL:   baseURL,
+		UserAgent: UserAgent,
+	}
+	c.Public = &PublicService{client: c}
+
+	return c
+}
