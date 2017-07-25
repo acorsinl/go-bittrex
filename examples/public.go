@@ -33,4 +33,13 @@ func main() {
 	for _, m := range currencies {
 		fmt.Println(m)
 	}
+
+	marketSummaries, err := client.Public.GetMarketSummaries()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for _, m := range marketSummaries {
+		fmt.Println(m)
+	}
 }
