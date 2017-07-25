@@ -112,6 +112,7 @@ func NewClient(httpClient *http.Client) *Client {
 		UserAgent: UserAgent,
 	}
 	c.Public = &PublicService{client: c}
+	c.Account = &AccountService{client: c}
 
 	return c
 }
