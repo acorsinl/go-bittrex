@@ -5,8 +5,21 @@
 
 package main
 
-import "github.com/acorsinl/bittrex"
+import (
+	"fmt"
+
+	"github.com/acorsinl/go-bittrex"
+)
 
 func main() {
-	client = bittrex.NewClient()
+	client := bittrex.NewClient(nil)
+	client.APIKey = ""
+	client.APISecret = ""
+
+	markets, err := client.Public.GetMarkets()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	fmt.Println(markets)
 }
